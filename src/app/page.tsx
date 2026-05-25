@@ -775,6 +775,7 @@ export default function Home() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSoul, setShowSoul] = useState(false);
   const [docsGenerated, setDocsGenerated] = useState(0);
+  const [displayedDoc, setDisplayedDoc] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { theme, setTheme } = useTheme();
 
@@ -845,6 +846,25 @@ export default function Home() {
       setIsGenerating(false);
     }
   }, [code, language, docType]);
+    // Typing animation effect
+  useEffect(() => {
+    if (!documentation) {
+      setDisplayedDoc('');
+      return;
+    }
+    let i = 0;
+    setDisplayedDoc('');
+    const interval = setInterval(() => {
+      if (i < documentation.length) {
+        setDisplayedDoc(documentation.slice(0, i + 4));
+        i += 4;
+      } else {
+        setDisplayedDoc(documentation);
+        clearInterval(interval);
+      }
+    }, 8);
+    return () => clearInterval(interval);
+  }, [documentation]);
 
   const handleFileUpload = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1329,7 +1349,7 @@ export default function Home() {
                         },
                       }}
                     >
-                      {documentation}
+                      {displayedDoc}
                     </ReactMarkdown>
                   </article>
                 </div>
@@ -1366,6 +1386,35 @@ export default function Home() {
                 <span className="text-sm text-muted-foreground">— discovered by AI</span>
               </div>
               <CodeSoulCard soul={codeSoul} />
+              {code && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="mt-4"
+                >
+                  <Card className="border-border/50">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Brain className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-sm font-semibold">Code Metrics</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-3">
+                        {[
+                          { label: 'Lines', value: code.split('\n').length, color: 'text-blue-600 dark:text-blue-400' },
+                          { label: 'Functions', value: (code.match(/function\s+\w+|def\s+\w+|const\s+\w+\s*=\s*(\(|async)|async\s+\w+\s*\(/g) || []).length, color: 'text-emerald-600 dark:text-emerald-400' },
+                          { label: 'Classes', value: (code.match(/class\s+\w+/g) || []).length, color: 'text-purple-600 dark:text-purple-400' },
+                        ].map((m) => (
+                          <div key={m.label} className="text-center p-2 rounded-lg bg-muted/50">
+                            <div className={`text-xl font-bold ${m.color}`}>{m.value}</div>
+                            <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{m.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
