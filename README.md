@@ -48,7 +48,7 @@ DocGen AI is an intelligent documentation generator that analyzes your source co
 | Styling      | Tailwind CSS 4 + shadcn/ui | Beautiful, responsive design                     |
 | Animations   | Framer Motion              | Smooth page transitions & reveals                |
 | Backend      | Next.js API Routes         | Server-side AI integration                       |
-| AI Engine    | z-ai-web-dev-sdk           | LLM-powered documentation & personality analysis |
+| AI Engine    | Groq (LLaMA 3.3 70B)       | LLM-powered documentation & personality analysis |
 | Language     | TypeScript                 | Type safety throughout                           |
 | Markdown     | react-markdown + rehype    | Rich documentation rendering                     |
 | Code Display | react-syntax-highlighter   | Syntax-highlighted code blocks                   |
@@ -76,14 +76,14 @@ git clone https://github.com/renita487/docgen-ai.git
 cd docgen-ai
 
 # Install dependencies
-bun install
+npm install
 
 # Set up environment variables
-cp .env.example .env
+cp .env.example .env.local
 # Edit .env and add your API key
 
 # Run the development server
-bun dev
+npm run dev
 ```
 
 Open http://localhost:3000 in your browser.
@@ -91,8 +91,8 @@ Open http://localhost:3000 in your browser.
 ### Production Build
 
 ```bash
-bun run build
-bun run start
+npm run build
+npm run start
 ```
 
 ---
@@ -168,7 +168,7 @@ Auto-detects the programming language from code snippet.
 
 ## Built For
 
-**AI Hackathon for Builders 2025** — Problem Statement #8: Technical Documentation Generator
+**AI Hackathon for Builders 2026** — Problem Statement #8: Technical Documentation Generator
 
 ---
 
