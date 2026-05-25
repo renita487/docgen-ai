@@ -56,3 +56,122 @@ DocGen AI is an intelligent documentation generator that analyzes your source co
 ---
 
 ## Architecture
+
+Both API calls run in **parallel** using `Promise.allSettled` — so docs + personality analysis arrive simultaneously. If one fails, the other still works.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ or Bun
+- An AI API key
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/renita487/docgen-ai.git
+cd docgen-ai
+
+# Install dependencies
+bun install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env and add your API key
+
+# Run the development server
+bun dev
+```
+
+Open http://localhost:3000 in your browser.
+
+### Production Build
+
+```bash
+bun run build
+bun run start
+```
+
+---
+
+## API Endpoints
+
+### `POST /api/generate-docs`
+
+Generates technical documentation from code.
+
+**Request:**
+```json
+{
+  "code": "your source code here",
+  "language": "python",
+  "docType": "comprehensive"
+}
+```
+
+**Response:**
+```json
+{
+  "documentation": "# Documentation\n\n...",
+  "language": "python"
+}
+```
+
+### `POST /api/analyze-mood`
+
+Analyzes code personality and emotional characteristics.
+
+**Request:**
+```json
+{
+  "code": "your source code here",
+  "language": "python"
+}
+```
+
+**Response:**
+```json
+{
+  "personality": "The Architect",
+  "personalityEmoji": "🏗️",
+  "mood": "Confident & Well-Structured",
+  "moodEmoji": "💪",
+  "healthScore": 85,
+  "encouragement": "Your code shows real craftsmanship...",
+  "funFact": "This code has more error handling than most space shuttles.",
+  "tip": "Consider adding type hints for even stronger documentation.",
+  "vibe": "Corporate"
+}
+```
+
+### `POST /api/detect-language`
+
+Auto-detects the programming language from code snippet.
+
+---
+
+## Project Structure
+---
+
+## What Makes This Special
+
+1. **Real-World Usability** — documentation is the #1 pain point in software teams
+2. **Two AI Personas working in parallel** — a technical writer + an emotional coach, simultaneously
+3. **Code Soul** — a novel feature that makes documentation generation *enjoyable*, not robotic
+4. **Polished UX** — confetti, animations, dark mode, responsive — feels like a real product
+5. **Clean Architecture** — parallel API calls, type-safe, error-resilient
+
+---
+
+## Built For
+
+**AI Hackathon for Builders 2025** — Problem Statement #8: Technical Documentation Generator
+
+---
+
+## License
+
+MIT
